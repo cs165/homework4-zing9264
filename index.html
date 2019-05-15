@@ -14,12 +14,14 @@
     <script src="audio-player.js" defer></script>
 
     <!-- TODO(you): Add any additional scripts here! -->
+    <script type="application/json" src="songs.json" ></script>
     <script src="menu-screen.js" defer></script>
     <script src="play-button.js" defer></script>
     <script src="gif-display.js" defer></script>
     <script src="music-screen.js" defer></script>
     <script src="app.js" defer></script>
     <script src="script.js" defer></script>
+
   </head>
   <body>
 
@@ -34,9 +36,16 @@
           <input type="text" id="query-input" placeholder="Enter a word or phrase" />
           <div id="error" class="inactive">Not enough gifs for this theme. Please try another.</div>
 
-          <input type="submit" value="Go" />
+          <input type="submit" value ="Go" />
         </form>
       </fieldset>
+    </div>
+
+    <div id="musicbox" class="inactive">
+      <div class="gif"></div>
+      <div class="playZone">
+      <div class="playbtn"></div>
+      </div>
     </div>
 
     <!-- TODO(you): Add the HTML necessary to complete the assignment! -->
