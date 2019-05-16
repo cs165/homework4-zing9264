@@ -5,9 +5,7 @@
 
 const _default_theme=['candy', 'charlie brown', 'computers', 'dance', 'donuts', 'hello kitty', 'flowers', 'nature', 'turtles', 'space'];
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+
 
 class MenuScreen {
 
@@ -30,6 +28,7 @@ class MenuScreen {
       this._onStreamProcessed=this._onStreamProcessed.bind(this);
       this._showSelected=this._showSelected.bind(this);
       this._geturl=this._geturl.bind(this);
+      this._oninput=this._oninput.bind(this);
       // 拿json歌單
       fetch('songs.json').then(this._onResponse,this._onError).then(this._onStreamProcessed);
       //加入選取
@@ -41,6 +40,7 @@ class MenuScreen {
       //表單提交
       const form = document.querySelector('form');
       form.addEventListener('submit', this._onSubmit);
+      document.querySelector("#query-input").addEventListener('input',this._oninput);
 
   }
 
@@ -92,7 +92,8 @@ class MenuScreen {
 
         this.submitObj.songValue=Object.values(json)[this.urlvalue].songUrl;
         console.log(this.submitObj);
-        this.hide();
+        let changeToBox=new CustomEvent('changeToBox');
+        dispatchEvent(changeToBox);
 
     }
 
@@ -100,11 +101,17 @@ class MenuScreen {
         event.preventDefault();
         const songValueinput = document.querySelector("#song-selector").value;
         const themeValueinput = document.querySelector("#query-input").value;
-        this.urlvalue=songValueinput
+        this.urlvalue=songValueinput;
 
         this.submitObj.themeValue=themeValueinput;
 
         fetch('songs.json').then(this._onResponse,this._onError).then(this._geturl);
+
+    }
+
+    _oninput(){
+
+        document.querySelector("#error").classList.add('inactive');
 
     }
 

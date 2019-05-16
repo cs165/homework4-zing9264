@@ -8,49 +8,60 @@
 //
 // See HW4 writeup for more hints and details.
 class MusicScreen {
-  constructor(containerElement) {
-    // TODO(you): Implement the constructor and add fields as necessary.
-      this.hide = this.hide.bind(this);
-      this.show = this.show.bind(this);
-<<<<<<< HEAD
-     this._btnclicked=this._btnclicked.bind(this);
-     this.isplaying=false;
+    constructor(containerElement) {
+        // TODO(you): Implement the constructor and add fields as necessary.
+        this.hide = this.hide.bind(this);
+        this.show = this.show.bind(this);
+        this._onKick = this._onKick.bind(this);
+        this._btnclicked = this._btnclicked.bind(this);
+        this.firstClick= true;
+        this.isplaying = false;
+        this.audioUrl=null;
+        this.audioPlayer=null;
+        this.containerElement = containerElement;
 
-      this.containerElement=containerElement;
+        this.playbtn = this.containerElement.querySelector('.playbtn');
+        this.playbtn.addEventListener('click', this._btnclicked);
 
-      this.playbtn=this.containerElement.querySelector('.playbtn');
+    }
 
-      this.playbtn.addEventListener('click',this._btnclicked);
-
-=======
-      this.containerElement=containerElement;
-
->>>>>>> 820e75f5661118aebf8cca11cd8b749c7dec8b23
-  }
-
-  show(){
+    show() {
         this.containerElement.classList.remove('inactive');
     }
 
-    hide(){
+    hide() {
         this.containerElement.classList.add('inactive');
     }
 
-<<<<<<< HEAD
-    _btnclicked(){
-      console.log(this.playbtn);
-      if(this.isplaying){
-          this.playbtn.classList.add('pausing');
-          this.playbtn.classList.remove('playing');
-          this.isplaying=false;
-      }
-      else {
-          this.playbtn.classList.add('playing');
-          this.playbtn.classList.remove('pausing');
-          this.isplaying=true;
-      }
+
+    _btnclicked() {
+        console.log(this.playbtn);
+        if (this.isplaying) {
+            this.playbtn.classList.add('pausing');
+            this.playbtn.classList.remove('playing');
+            this.audioPlayer.pause();
+            this.isplaying = false;
+        }
+        else {
+            if(this.firstClick){
+                console.log(this.audioUrl);
+                this.audioPlayer = new AudioPlayer();
+                this.audioPlayer.setSong(this.audioUrl);
+                this.audioPlayer.setKickCallback(this._onKick);
+                this.firstClick=false;
+            }
+            this.audioPlayer.play();
+            this.playbtn.classList.add('playing');
+            this.playbtn.classList.remove('pausing');
+            this.isplaying = true;
+        }
     }
-=======
->>>>>>> 820e75f5661118aebf8cca11cd8b749c7dec8b23
+
+    _onKick() {
+        console.log('kick!');
+        let kick=new CustomEvent('kick!');
+        dispatchEvent(kick);
+    }
+
     // TODO(you): Add methods as necessary.
 }

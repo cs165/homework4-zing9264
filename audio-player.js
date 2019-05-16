@@ -4,6 +4,7 @@ class AudioPlayer {
   constructor() {
     this._onKickCallback = this._onKickCallback.bind(this);
 
+
     this.lastKickTime = -1;
 
     this.dancer = new Dancer();
@@ -12,6 +13,7 @@ class AudioPlayer {
       onKick: this._onKickCallback
     });
     this.kick.on();
+
   }
 
   setSong(songUrl) {
@@ -51,4 +53,6 @@ class AudioPlayer {
       this.kickCallback();
     }
   }
+
 }
+
