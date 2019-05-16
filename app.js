@@ -43,12 +43,11 @@ class App {
     }
 
     _loadfinish(){
-        console.log('getload'+loadcount+' and '+this.gifDisplay.gifImage.length-1);
-        if( loadcount==this.gifDisplay.gifImage.length-1){
-        console.log(Document.readyState);
+        console.log('getload'+this.gifDisplay.loadcount);
+        if( this.gifDisplay.loadcount==2){
         document.querySelector('#loading').classList.add('inactive');
-        this.gifDisplay.show();
         this.musicScreen.audioUrl=this.menuScreen.submitObj.songValue;
+        this.gifDisplay.show();
         console.log('submit:'+this.musicScreen.audioUrl);
         this.musicScreen.show();
         }

@@ -5,14 +5,15 @@
 
 
 const imgLoad = new CustomEvent('imgLoad');
-var loadcount=0;
 
 class GifDisplay {
     constructor() {
         // TODO(you): Implement the constructor and add fields as necessary.
         this.foregifnum = 0;
         this.backgifnum = 1;
-
+        this.loadcount=0;
+        this.gifUrl1=null;
+        this.gifUrl2=null;
 
         this.hide = this.hide.bind(this);
         this.show = this.show.bind(this);
@@ -28,8 +29,11 @@ class GifDisplay {
         addEventListener('kick!', this._changeGif);
         this.gifImage= new Array();
         addEventListener('finishSearch',this._loadimage);
+
+        this.loadednum=new Array();
     }
 
+    // TODO(you): Add methods as necessary.
     show() {
         this.foreground.classList.remove('inactive');
         this.background.classList.remove('inactive');
@@ -50,13 +54,6 @@ class GifDisplay {
             .then(json => {
                 if (json.data.length >= 2) {
                     this.gifjson = json;
-                    this._getNONrepeatNum();
-                    const gifUrl1 = json.data[this.foregifnum].images.downsized.url;
-                    const gifUrl2 = json.data[this.backgifnum].images.downsized.url;
-                    console.log(json.data.length);
-                    console.log("NOWPICTURE"+this.foregifnum);
-                    this.foreground.style.backgroundImage = "url('" + gifUrl1 + "')";
-                    this.background.style.backgroundImage = "url('" + gifUrl2 + "')";
                 }
 
                 this.giflength = json.data.length;
@@ -73,17 +70,24 @@ class GifDisplay {
     }
 
     _changeGif() {
-        console.log("NOWPICTURE"+this.backgifnum);
-        console.log("showing:"+  this.background.style.backgroundImage);
+
+
         this.foreground = document.querySelector('.gif_fore');
         this.background = document.querySelector('.gif_back');
+
 
         this.background.classList.remove('gif_back');
         this.background.classList.add('gif_fore');
         this.foreground.classList.remove('gif_fore');
         this.foreground.classList.add('gif_back');
+
+      /*  console.log("NOWPICTURE+"+this.foregifnum+' '+this.loadednum);
+        console.log("fore showing:"+  this.background.style.backgroundImage);
+        console.log("background showing:"+  this.foreground.style.backgroundImage);*/
+
         this._getNONrepeatNum();
-        this.background.style.backgroundImage = "url('" + this.gifImage[this.backgifnum].src + "')";
+        this.foreground.style.backgroundImage = "url('" + this.gifImage[this.loadednum[this.backgifnum]].src + "')";
+
 
 
     }
@@ -92,9 +96,15 @@ class GifDisplay {
 
         var nownum1 = 0;
         var nownum2 = 0;
+        if(this.loadednum.length-1<2){
+            let tmp=this.foregifnum;
+            this.foregifnum=this.backgifnum;
+            this.backgifnum=tmp;
+            return;
+        }
         while (true) {
-            nownum1 = getRandomInt(this.gifjson.data.length - 1);
-            nownum2 = getRandomInt(this.gifjson.data.length - 1);
+            nownum1 = getRandomInt(this.loadednum.length - 1);
+            nownum2 = getRandomInt(this.loadednum.length - 1);
             if (nownum1 != this.foregifnum && nownum1 != nownum2 && nownum2 != this.backgifnum) {
                 this.foregifnum = nownum1;
                 this.backgifnum = nownum2;
@@ -108,19 +118,29 @@ class GifDisplay {
             for(var i=0;i<this.giflength;i++){
                 this.gifImage[i] = new Image(0,0);
                 this.gifImage[i].src = this.gifjson.data[i].images.downsized.url;
-                this.gifImage[i].onload= function() {
-                    console.log("load: "+  loadcount);
-                    loadcount++;
+                var child=document.querySelector('#preload').appendChild(this.gifImage[i]);
+                child.id=i+'_img';
+                this.gifImage[i].onload= function(event) {
+                    if(this.loadcount==0){
+                        this.foreground.style.backgroundImage = "url('" + event.path[0].src+ "')";
+
+                    }
+                    if(this.loadcount==1){
+                        this.background.style.backgroundImage = "url('" + event.path[0].src + "')";
+                    }
+                  /*  console.log(event);
+                    console.log(parseInt(event.path[0].id));*/
+                    this.loadednum.push(parseInt(event.path[0].id));
+                    this.loadcount++;
                    dispatchEvent(imgLoad);
 
-                }
+                }.bind(this)
 
-                document.querySelector('#preload').appendChild(this.gifImage[i]);
 
             }
 
         }
     }
-    // TODO(you): Add methods as necessary.
+
 }
 
