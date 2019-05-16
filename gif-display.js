@@ -2,23 +2,32 @@
 // is being shown and can select a new random gif to be shown.
 // 
 // See HW4 writeup for more hints and details.
+
+
+const imgLoad = new CustomEvent('imgLoad');
+var loadcount=0;
+
 class GifDisplay {
     constructor() {
         // TODO(you): Implement the constructor and add fields as necessary.
         this.foregifnum = 0;
         this.backgifnum = 1;
 
+
         this.hide = this.hide.bind(this);
         this.show = this.show.bind(this);
         this._getGif = this._getGif.bind(this);
         this._changeGif = this._changeGif.bind(this);
         this._getNONrepeatNum = this._getNONrepeatNum.bind(this);
+        this._loadimage=this._loadimage.bind(this);
         this.searchItem = null;
         this.foreground = document.querySelector('.gif_fore');
         this.background = document.querySelector('.gif_back');
         this.gifjson = null;
         this.giflength = -1;
         addEventListener('kick!', this._changeGif);
+        this.gifImage= new Array();
+        addEventListener('finishSearch',this._loadimage);
     }
 
     show() {
@@ -65,6 +74,7 @@ class GifDisplay {
 
     _changeGif() {
         console.log("NOWPICTURE"+this.backgifnum);
+        console.log("showing:"+  this.background.style.backgroundImage);
         this.foreground = document.querySelector('.gif_fore');
         this.background = document.querySelector('.gif_back');
 
@@ -73,7 +83,7 @@ class GifDisplay {
         this.foreground.classList.remove('gif_fore');
         this.foreground.classList.add('gif_back');
         this._getNONrepeatNum();
-        this.background.style.backgroundImage = "url('" + this.gifjson.data[this.backgifnum].images.downsized.url + "')";
+        this.background.style.backgroundImage = "url('" + this.gifImage[this.backgifnum].src + "')";
 
 
     }
@@ -93,6 +103,24 @@ class GifDisplay {
         }
     }
 
+    _loadimage(){
+        if(this.giflength>=2){
+            for(var i=0;i<this.giflength;i++){
+                this.gifImage[i] = new Image(0,0);
+                this.gifImage[i].src = this.gifjson.data[i].images.downsized.url;
+                this.gifImage[i].onload= function() {
+                    console.log("load: "+  loadcount);
+                    loadcount++;
+                   dispatchEvent(imgLoad);
+
+                }
+
+                document.querySelector('#preload').appendChild(this.gifImage[i]);
+
+            }
+
+        }
+    }
     // TODO(you): Add methods as necessary.
 }
 

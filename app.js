@@ -9,6 +9,7 @@ class App {
 
         this._changeToBox=this._changeToBox.bind(this);
         this._finishSearch=this._finishSearch.bind(this);
+        this._loadfinish=this._loadfinish.bind(this);
 
         const menuElement = document.querySelector('#menu');
         this.menuScreen = new MenuScreen(menuElement);
@@ -18,7 +19,7 @@ class App {
 
         addEventListener('changeToBox',this._changeToBox);
         addEventListener('finishSearch',this._finishSearch);
-
+        addEventListener('imgLoad',this._loadfinish);
         this.gifDisplay= new GifDisplay();
 
     }
@@ -37,10 +38,19 @@ class App {
         }
         else{
             this.menuScreen.hide();
-            this.gifDisplay.show();
-            this.musicScreen.audioUrl=this.menuScreen.submitObj.songValue;
-            console.log('submit:'+this.musicScreen.audioUrl);
-            this.musicScreen.show();
+            document.querySelector('#loading').classList.remove('inactive');
+        }
+    }
+
+    _loadfinish(){
+        console.log('getload'+loadcount+' and '+this.gifDisplay.gifImage.length-1);
+        if( loadcount==this.gifDisplay.gifImage.length-1){
+        console.log(Document.readyState);
+        document.querySelector('#loading').classList.add('inactive');
+        this.gifDisplay.show();
+        this.musicScreen.audioUrl=this.menuScreen.submitObj.songValue;
+        console.log('submit:'+this.musicScreen.audioUrl);
+        this.musicScreen.show();
         }
     }
 

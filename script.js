@@ -11,3 +11,4 @@ if(typeof AudioContext != "undefined" || typeof webkitAudioContext != "undefined
     };
     document.addEventListener("click", resumeAudio);
 }
+
