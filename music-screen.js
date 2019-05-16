@@ -12,6 +12,7 @@ class MusicScreen {
     // TODO(you): Implement the constructor and add fields as necessary.
       this.hide = this.hide.bind(this);
       this.show = this.show.bind(this);
+<<<<<<< HEAD
      this._btnclicked=this._btnclicked.bind(this);
      this.isplaying=false;
 
@@ -21,6 +22,10 @@ class MusicScreen {
 
       this.playbtn.addEventListener('click',this._btnclicked);
 
+=======
+      this.containerElement=containerElement;
+
+>>>>>>> 820e75f5661118aebf8cca11cd8b749c7dec8b23
   }
 
   show(){
@@ -31,6 +36,7 @@ class MusicScreen {
         this.containerElement.classList.add('inactive');
     }
 
+<<<<<<< HEAD
     _btnclicked(){
       console.log(this.playbtn);
       if(this.isplaying){
@@ -44,5 +50,7 @@ class MusicScreen {
           this.isplaying=true;
       }
     }
+=======
+>>>>>>> 820e75f5661118aebf8cca11cd8b749c7dec8b23
     // TODO(you): Add methods as necessary.
 }

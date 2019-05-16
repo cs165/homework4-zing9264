@@ -21,6 +21,7 @@ TODO(you): Write any additional styles you need here.
 }
 
 .playbtn{
+<<<<<<< HEAD
     margin-top: 5px;
     height: 60px;
     margin-left: auto; margin-right: auto;
@@ -46,4 +47,16 @@ TODO(you): Write any additional styles you need here.
     width: 60px;
     justify-content: center;
     margin-bottom: 5px;
+=======
+
+    margin-top: 5px;
+    height: 60px;
+    margin-left: auto; margin-right: auto;
+    background-image: url("images/play.png");
+    background-size: cover;
+    width: 60px;
+    justify-content: center;
+    margin-bottom: 5px;
+
+>>>>>>> 820e75f5661118aebf8cca11cd8b749c7dec8b23
 }
