@@ -12,7 +12,14 @@ class MusicScreen {
     // TODO(you): Implement the constructor and add fields as necessary.
       this.hide = this.hide.bind(this);
       this.show = this.show.bind(this);
+     this._btnclicked=this._btnclicked.bind(this);
+     this.isplaying=false;
+
       this.containerElement=containerElement;
+
+      this.playbtn=this.containerElement.querySelector('.playbtn');
+
+      this.playbtn.addEventListener('click',this._btnclicked);
 
   }
 
@@ -24,5 +31,18 @@ class MusicScreen {
         this.containerElement.classList.add('inactive');
     }
 
+    _btnclicked(){
+      console.log(this.playbtn);
+      if(this.isplaying){
+          this.playbtn.classList.add('pausing');
+          this.playbtn.classList.remove('playing');
+          this.isplaying=false;
+      }
+      else {
+          this.playbtn.classList.add('playing');
+          this.playbtn.classList.remove('pausing');
+          this.isplaying=true;
+      }
+    }
     // TODO(you): Add methods as necessary.
 }

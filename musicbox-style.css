@@ -21,14 +21,29 @@ TODO(you): Write any additional styles you need here.
 }
 
 .playbtn{
-
     margin-top: 5px;
     height: 60px;
     margin-left: auto; margin-right: auto;
-    background-image: url("images/play.png");
-    background-size: cover;
     width: 60px;
     justify-content: center;
     margin-bottom: 5px;
 
+}
+.pausing{
+    margin-top: 5px;
+    height: 60px;
+    margin-left: auto; margin-right: auto;
+    content: url("images/play.png");
+    width: 60px;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+.playing{
+    margin-top: 5px;
+    height: 60px;
+    margin-left: auto; margin-right: auto;
+    content: url("images/pause.png");
+    width: 60px;
+    justify-content: center;
+    margin-bottom: 5px;
 }
